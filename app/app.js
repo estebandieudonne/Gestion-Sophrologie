@@ -1403,7 +1403,10 @@ function showParametresWindow() {
 		<h2 style="text-align:center; margin-bottom: 20px;">Informations</h2>
 
 		<div style="text-align: center; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        <p><strong>Version de l'application :</strong> 1.2.0</p>
+        <p><strong>Version de l'application :</strong> 1.3.0</p>
+		<p>Obtenez <a href="https://gestionsophrologie.netlify.app/#download" class="support-link"
+				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">ici</a>
+		la dernière version</p>
 
         <p><strong>Guide d'utilisation :</strong><br>
 			<a href="#" onclick="window.api.openGuidePdf()">Ouvrir le guide d'utilisation <strong>↗</strong></a>
@@ -1411,6 +1414,9 @@ function showParametresWindow() {
 
         <p><strong>Support & Contact :</strong><br>
             <a href="mailto:gestion.sophrologie@gmail.com">gestion.sophrologie@gmail.com</a>
+			<a href="https://gestionsophrologie.netlify.app" class="support-link"
+				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">
+			https://gestionsophrologie.netlify.app</a>
         </p>
 
         <p><strong>Développé par :</strong><br>
@@ -1425,14 +1431,30 @@ function showParametresWindow() {
             Stockage local dans APPDATA<br>
             Aucune donnée envoyée en ligne<br>
 		</p>
+		
 		<p><strong>Dernière modification :</strong><br>
 			<div id="lastModified-viewer"></div>
         </p>
+		
+		<p><strong>Code source :</strong></br>
+			Cette application est distribuée sous licence GNU General Public License version 3 (GPLv3).
+			Vous pouvez librement utiliser, modifier et redistribuer ce logiciel selon les termes de cette licence.
+			</br>
+			Le code source est disponible sur GitHub :
+            <a href="https://github.com/estebandieudonne/Gestion-Sophrologie.git" class="support-link"
+				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">
+			https://github.com/estebandieudonne/Gestion-Sophrologie.git</a>
+			</br>
+			Pour plus d’informations sur la licence, consultez :
+			</br>
+			<a href="https://www.gnu.org/licenses/gpl-3.0.html" class="support-link"
+				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">
+			https://www.gnu.org/licenses/gpl-3.0.html</a>
+		</p>
 		<hr>
-        <p>© 2026 Esteban Dieudonné - Gestion Sophrologie. Tous droits réservés.</p>
+        <p>© 2026 Esteban Dieudonné - Gestion Sophrologie</p>
 		</div>
 		</div>
-
     </div>
 </div>
     `;
@@ -1459,7 +1481,7 @@ function showParametresWindow() {
 	
     renderParametres();
 	
-    // Clique pour fermer
+	// Clique pour fermer
     overlay.querySelector('.param-close').onclick = () => {
         overlay.remove();
     };
@@ -1484,6 +1506,11 @@ function changePlaceholderInfo2(value) {
     parametres.placeholderInfo2 = value;
     saveData();
 }
+
+
+
+
+
 
 //================== GESTION DES FACTURES ======================
 function loadFactures() {	
