@@ -86,8 +86,8 @@ function checkServerRunning(timeout = 1000) {
 // SPAWN SERVER
 // ------------------------------------------------
 function spawnServer() {
-	//const exePath = path.join(process.resourcesPath, 'GS-Server.exe'); // Correct pour build
-	const exePath = path.join(__dirname, 'app', 'GS-Server.exe'); //pour dev
+	const exePath = path.join(process.resourcesPath, 'GS-Server.exe'); // Correct pour build
+	//const exePath = path.join(__dirname, 'app', 'GS-Server.exe'); //pour dev
   if (!fs.existsSync(exePath)) {
     dialog.showErrorBox('Erreur', `Impossible de trouver GS-Server.exe à : ${exePath}`);
     return null;
@@ -158,6 +158,16 @@ function stopServerIfOwned() {
 // REGISTER IPC HANDLERS
 // ------------------------------------------------
 function registerIpcHandlers() {
+	
+	// ---------------------------------------------------------
+	// Ouvrir lien dans le naviguateur
+	// ---------------------------------------------------------
+	ipcMain.on('open-external-link', (event, url) => {
+		if (url && typeof url === 'string') {
+		shell.openExternal(url);
+		}
+	});
+	
 
     // ---------------------------------------------------------
     // Copier une facture dans le dossier data/factures
@@ -431,14 +441,6 @@ ipcMain.handle('clean-old-backups', async () => {
 app.whenReady().then(() => {
   cleanOldBackups().catch(console.error);
 });
-
-
-
-
-
-
-
-
 
 
 // ------------------------------------------------

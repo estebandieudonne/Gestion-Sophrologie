@@ -1,5 +1,5 @@
 // preload.js
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, shell} = require("electron");
 
 contextBridge.exposeInMainWorld("electron", {
     invoke: (channel, data) => ipcRenderer.invoke(channel, data),
@@ -14,4 +14,5 @@ contextBridge.exposeInMainWorld("api", {
 	cleanOldBackups: () => ipcRenderer.invoke('clean-old-backups'),
 	selectDossier: async () => ipcRenderer.invoke("select-folder"),
 	getClientFactures: async (params) => ipcRenderer.invoke('get-client-factures', params),
+	openExternalLink: (url) => ipcRenderer.send('open-external-link', url),
 });
