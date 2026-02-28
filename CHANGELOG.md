@@ -4,10 +4,17 @@ Ce projet suit les recommandations de **Keep a Changelog**  et utilise le versio
 
 ---
 
-## [1.2.0]
-### Corrigé
-- Bug d'interligne (0.8 → 1.2)
+## [1.3.0]
 
+### Ajouté 
+- Informations sur la licence GPLv3 + contact
+
+---
+
+## [1.2.0]
+
+### Corrigé 
+- Bug d'interligne (0.8 → 1.2)
 
 ---
 
