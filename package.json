@@ -1,0 +1,40 @@
+{
+  "name": "gestion-sophrologie",
+  "version": "1.2.0",
+  "description": "Application de gestion sophrologie",
+  "author": "Esteban Dieudonné",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.st.gestion-sophrologie",
+    "productName": "Gestion Sophrologie",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "app/**/*",
+      "main.js",
+      "preload.js"
+    ],
+    "extraResources": [
+      { "from": "app/GS-Server.exe", "to": "GS-Server.exe"},
+	  { "from": "app/guide-utilisation.pdf", "to": "guide-utilisation.pdf" }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "app/icon.ico",
+      "forceCodeSigning": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^23.6.0"
+  }
+}
