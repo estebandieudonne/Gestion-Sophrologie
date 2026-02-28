@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Chargement...</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+  }
+
+  .logo {
+    width: 100px;
+    margin-bottom: 20px;
+    /* Logo statique, plus d'animation */
+  }
+
+  .text {
+    font-size: 20px;
+    color: #444;
+    margin-top: 10px;
+  }
+
+  /* Loader points */
+  .dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: #444;
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: bounce 0.6s infinite alternate;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+  }
+</style>
+</head>
+<body>
+  <img class="logo" src="icon.ico" alt="Logo">
+  <div class="text" color="gray">Chargement en cours...</div>
+  
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</body>
+</html>
