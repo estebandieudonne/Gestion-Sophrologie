@@ -14,6 +14,14 @@ Application de gestion pour sophrologues, développée par un lycéen.
 
 ---
 
+## Soutien
+
+Si vous appréciez mon travail, votre soutien via un don sur Ko-fi serait grandement apprécié ! Merci infiniment.
+
+<a href="https://ko-fi.com/estebandieudonne" >
+  <img src="support_me_on_kofi_badge_red.png" alt="Support me on Ko-fi" width="150" />
+</a>
+
 ## Aperçu
 
 La sophrologie est une méthode de relaxation combinant respiration, relaxation et visualisation pour améliorer le bien-être et la gestion du stress.
