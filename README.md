@@ -122,7 +122,7 @@ Les contributions sont les bienvenues !
 
 Pour contribuer :
 
-1. Fork le projet (pour les autres développeurs)
+1. Fork le projet 
 2. Créez une branche
 3. Faites vos modifications
 4. Proposez une Pull Request
