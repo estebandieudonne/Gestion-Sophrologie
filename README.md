@@ -144,6 +144,8 @@ le logiciel, tant que vous respectez les conditions de la licence.
 [Voir le fichier LICENSE pour plus d'informations ↗](LICENSE)  
 [En savoir plus sur la GPL v3 ↗](https://www.gnu.org/licenses/gpl-3.0.html)
 
+© 2026 Esteban Dieudonné - Gestion Sophrologie
+
 ---
 
 ## Auteur
