@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="banner.png" width="700">
+  <img src="images/banner.png" alt="Gestion Sophrologie" width="700">
 </p>
 
 # Gestion Sophrologie
@@ -19,7 +19,7 @@ Application de gestion pour sophrologues, développée par un lycéen.
 Si vous appréciez mon travail, votre soutien via un don sur Ko-fi serait grandement apprécié ! Merci infiniment.
 
 <a href="https://ko-fi.com/estebandieudonne" >
-  <img src="support_me_on_kofi_badge_red.png" alt="Support me on Ko-fi" width="150" />
+  <img src="images/support_me_on_kofi_badge_red.png" alt="Support me on Ko-fi" width="150" />
 </a>
 
 ## Aperçu
