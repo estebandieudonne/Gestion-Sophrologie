@@ -1,8 +1,10 @@
 {
   "name": "gestion-sophrologie",
   "version": "1.3.0",
-  "description": "Application de gestion sophrologie",
+  "description": "Application de gestion pour sophrologues",
   "author": "Esteban Dieudonné",
+  "license": "GPL-3.0-or-later",
+  "copyright": "© 2026 Esteban Dieudonné - Gestion Sophrologie",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

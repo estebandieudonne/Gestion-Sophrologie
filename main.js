@@ -1,3 +1,14 @@
+/*
+ * © 2026 Esteban Dieudonné - Gestion Sophrologie
+ *
+ * Ce fichier est libre : vous pouvez le redistribuer et/ou le modifier
+ * selon les termes de la Licence Publique Générale GNU version 3 ou ultérieure.
+ *
+ * Ce fichier est distribué sans aucune garantie.
+ *
+ * Pour plus de détails, consultez : https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 const { app, BrowserWindow, dialog , ipcMain, shell} = require('electron');
 const path = require('path');
 const net = require('net');
@@ -86,8 +97,8 @@ function checkServerRunning(timeout = 1000) {
 // SPAWN SERVER
 // ------------------------------------------------
 function spawnServer() {
-	const exePath = path.join(process.resourcesPath, 'GS-Server.exe'); // Correct pour build
-	//const exePath = path.join(__dirname, 'app', 'GS-Server.exe'); //pour dev
+	const exePath = path.join(process.resourcesPath, 'GS-Server.exe'); // Pour builder
+	//const exePath = path.join(__dirname, 'app', 'GS-Server.exe'); //Pour developper
   if (!fs.existsSync(exePath)) {
     dialog.showErrorBox('Erreur', `Impossible de trouver GS-Server.exe à : ${exePath}`);
     return null;

@@ -1,5 +1,16 @@
 ﻿# Changelog – Gestion Sophrologie
 
+© 2026 Esteban Dieudonné - Gestion Sophrologie
+
+Ce fichier est libre : vous pouvez le redistribuer et/ou le modifier
+selon les termes de la Licence Publique Générale GNU version 3 ou ultérieure.
+
+Ce fichier est distribué sans aucune garantie.
+
+Pour plus d’informations : https://www.gnu.org/licenses/gpl-3.0.html
+
+---
+
 Ce projet suit les recommandations de **Keep a Changelog**  et utilise le versionnement **SemVer**.
 
 ---
