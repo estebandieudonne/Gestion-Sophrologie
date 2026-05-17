@@ -15,6 +15,16 @@ Ce projet suit les recommandations de **Keep a Changelog**  et utilise le versio
 
 ---
 
+## [1.4.0]
+
+### Ajouté 
+- Ajout d'une case de saisie de script de la sophronisation dans les séances
+
+### Corrigé
+- Largeur du champ date de la séance et du prochain rendez-vous en mode édition
+
+---
+
 ## [1.3.0]
 
 ### Ajouté 

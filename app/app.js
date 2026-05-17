@@ -1084,6 +1084,7 @@ function viewSeance(seanceId) {
     document.getElementById('view-seance-anamnese').textContent = seance.anamnese || '\n\n\n\n\n\n';
     document.getElementById('view-seance-phenodescription').textContent = seance.phenodescription || '\n\n\n\n\n\n';
 	document.getElementById('view-seance-entrainement').textContent = seance.entrainement || '';
+	document.getElementById('view-seance-script').textContent = seance.script || '';
 		
 	const dateRDV = new Date(seance.prochainRDV);
 	const isValidDateRDV = !isNaN(dateRDV.getTime());
@@ -1151,6 +1152,7 @@ function toggleEditSeance() {
 		document.getElementById('seance-entrainement').value = seance.entrainement || '';
 		document.getElementById('seance-prochainRDV').value = seance.prochainRDV;
 		document.getElementById('prochainRDV-type').value = seance.prochainRDVtype || '';
+		document.getElementById('seance-script').value = seance.script || '';
         
         setTimeout(autoResizeAllTextareas, 0);
     }
@@ -1173,6 +1175,7 @@ function saveSeanceEdit() {
 	seance.entrainement = document.getElementById('seance-entrainement').value;
 	seance.prochainRDV = document.getElementById('seance-prochainRDV').value;
 	seance.prochainRDVtype = document.getElementById('prochainRDV-type').value;
+	seance.script = document.getElementById('seance-script').value;
 
     saveData();
     viewSeance(currentSeanceId);
@@ -1413,7 +1416,7 @@ function showParametresWindow() {
 		<h2 style="text-align:center; margin-bottom: 20px;">Informations</h2>
 
 		<div style="text-align: center; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        <p><strong>Version de l'application :</strong> 1.3.0</p>
+        <p><strong>Version de l'application :</strong> 1.4.0</p>
 		<p>Obtenez <a href="https://gestionsophrologie.netlify.app/#download" class="support-link"
 				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">ici</a>
 		la dernière version</p>

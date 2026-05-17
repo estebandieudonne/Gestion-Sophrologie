@@ -79,10 +79,10 @@ npm run dist
 
 Dans le fichier `main.js` :
 ```bash
-# Décommenter la ligne 90
+# Décommenter la ligne 101
 //const exePath = path.join(__dirname, 'app', 'GS-Server.exe');
 
-# Commenter la ligne 89
+# Commenter la ligne 100
 const exePath = path.join(process.resourcesPath, 'GS-Server.exe');
 ```
 
@@ -157,4 +157,3 @@ Contact : [gestionsophrologie@gmail.com](mailto:gestionsophrologie@gmail.com)
 ## Remerciements
 
 Merci aux sophrologues qui utilisent l'application et donnent des retours pour améliorer le projet.
-
