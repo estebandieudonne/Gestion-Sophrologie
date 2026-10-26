@@ -67,11 +67,12 @@ async function loadData() {
         const response = await fetch('http://localhost:5000/api/data');
         const data = await response.json();
         clients = data.clients || [];
-		lastModified = data.lastModified || ''; 
-		// Assurez-vous que factures est initialisé si parametres est chargé
+		lastModified = data.lastModified || '';
 		parametres = data.parametres || { sophronisations: [], exercices: [] };
+		verifExportRegulier()
     } catch (error) {
         console.error('Erreur lors du chargement des données:', error);
+		showNotification('❌ Erreur lors du chargement des données !', 'error');
     }
 }
 
@@ -96,7 +97,8 @@ async function saveData() {
     .then(result => {
         if (result.status === 'success') {
             console.log('Données sauvegardées côté serveur ✅');
-            showNotification('Données sauvegardées avec succès ✅', 'success');
+            //showNotification('Données sauvegardées avec succès ✅', 'success');
+			showSaved();
         } else {
             console.error('Erreur serveur:', result.message || result.error);
             showNotification('Erreur lors de la sauvegarde sur le serveur ⚠️️', 'information');
@@ -104,7 +106,7 @@ async function saveData() {
     })
     .catch(error => {
         console.error('❌ Erreur lors de la sauvegarde:', error);
-        showNotification('❌ Impossible de contacter le serveur. Les données ne sont pas enregistrées !', 'error');
+        showNotification(`❌ Les données ne sont pas enregistrées !\n Veuillez redémarrer l\'application`, 'error');
     });
 	
 	try {
@@ -115,6 +117,19 @@ async function saveData() {
   };
 }
 
+async function verifExportRegulier(){
+	const lastModifiedObj = new Date(lastModified);
+	const lastExportObj = new Date(parametres.lastExport);
+	const ecartMs = lastModifiedObj - lastExportObj;
+	const nbJours = Math.round(ecartMs / (1000 * 60 * 60 * 24));
+	
+	if(nbJours >= parametres.frappelExport ){
+		const confirmed = await showConfirmDialog(
+        `Cela fait ${nbJours} jours que vous n’avez pas exporté vos données. Pour éviter toute perte, souhaitez-vous les exporter maintenant ?`, 'Exporter'
+		);
+		if (confirmed) exportData();
+	}
+}
 
 // ==================== GESTION DES ONGLETS ====================
 
@@ -286,27 +301,28 @@ function renderClientsList() {
 function loadAnamnese() {
     const client = clients.find(c => c.id === selectedClientId);
     if (!client) return;
-
     const anamnese = client.anamnese || {};
 
-    document.getElementById('anamnese-info').textContent = `Client : ${client.prenom} ${client.nom}`;
+	const remplirBulleInfo = [`Client : ${client.prenom} ${client.nom}`];
+	if (client.anamnese.date && client.anamnese.date.trim() !== '') {
+		const date = new Date(client.anamnese.date).toLocaleDateString('fr-FR', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});;
+		remplirBulleInfo.push(`Première séance le ${date}`);
+	}
+    document.getElementById('anamnese-info').textContent = remplirBulleInfo.join(' - ');
+	
     document.getElementById('anamnese-client-name').textContent = `${client.prenom} ${client.nom}`;
 	
-	const infoParts = [];
-
-if (client.adresse && client.adresse.trim() !== '') {
-  infoParts.push(`Adresse : ${client.adresse}`);
-}
-
-if (client.email && client.email.trim() !== '') {
-  infoParts.push(`Email : ${client.email}`);
-}
-
-if (client.telephone && client.telephone.trim() !== '') {
-  infoParts.push(`Tel : ${client.telephone}`);
-}
-
-document.getElementById('anamnese-client-renseignements').textContent = infoParts.join(' | ');
+	const infoHeader = [];
+	if (client.adresse && client.adresse.trim() !== '') {
+		infoHeader.push(`Adresse : ${client.adresse}`);
+	}
+	if (client.email && client.email.trim() !== '') {
+		infoHeader.push(`Email : ${client.email}`);
+	}
+	if (client.telephone && client.telephone.trim() !== '') {
+		infoHeader.push(`Tel : ${client.telephone}`);
+	}
+	document.getElementById('anamnese-client-renseignements').textContent = infoHeader.join(' | ');
 
     showAnamneseViewMode();
 }
@@ -989,6 +1005,7 @@ function loadSeances() {
     document.getElementById('seances-info').textContent = `Client : ${client.prenom} ${client.nom}`;
 
     document.getElementById('seance-detail').classList.add('hidden');
+	document.getElementById('seance-tools').classList.add('hidden');
     document.getElementById('seances-list').classList.remove('hidden');
     currentSeanceId = null;
     
@@ -1044,6 +1061,7 @@ function viewSeance(seanceId) {
 
     document.getElementById('seances-list').classList.add('hidden');
     document.getElementById('seance-detail').classList.remove('hidden');
+	document.getElementById('seance-tools').classList.remove('hidden');
 
     document.getElementById('seance-client-name').textContent = `${client.prenom} ${client.nom}`;
     document.getElementById('seance-number').textContent = `Séance n°${seance.num}`;
@@ -1060,6 +1078,8 @@ function viewSeance(seanceId) {
 		const affichageDate = dateStr ? `${dateStr}` : '';
 	
     document.getElementById('seance-date-display').textContent = affichageDate;
+	
+	document.getElementById('seances-info').textContent = `Client : ${client.prenom} ${client.nom} - Séance n°${seance.num} ${affichageDate ? `le ${affichageDate}` : ''}`;
 
     const sophroText = protocoleSeance?.sophronisation || 'Non défini';
     const sophroIntention = protocoleSeance?.intentionSophro || '';
@@ -1179,7 +1199,7 @@ function saveSeanceEdit() {
 
     saveData();
     viewSeance(currentSeanceId);
-    showNotification('Séance enregistrée avec succès ! ✅','success');
+    //showNotification('Séance enregistrée avec succès ! ✅','success');
 }
 
 function backToSeancesList() {
@@ -1240,6 +1260,10 @@ function renderParametres() {
 
 	if (document.getElementById('placeholder-facture-info2-name')){
         document.getElementById('placeholder-facture-info2-name').value = parametres.placeholderInfo2 || '';
+    }
+	
+	if (document.getElementById('frappelExport-saisie')){
+        document.getElementById('frappelExport-saisie').value = parametres.frappelExport || '30';
     }
 
     const sophroContainer = document.getElementById('sophronisations-param-list');
@@ -1387,11 +1411,16 @@ function showParametresWindow() {
 			<button onclick="openDataFolder()" class="btn btn-neutral">📂 Ouvrir le dossier des données (APPDATA)</button>
 			</br></br>
 			<button class="btn btn-neutral" onclick="exportData()">📤 Exporter la base de données (fichier json)</button>
-			</br></br>
+			<p>Fréquence de rappel d'export :
+				<input type="number" id="frappelExport-saisie" onchange="changeFrappelExport(this.value)" class="" ></input>
+				jours
+			</p>
+						
+			</br>
 			<button class="btn btn-neutral" onclick="document.getElementById('importFile').click()">📥 Importer une base de données (fichier json)</button>
 			</br></br>
 			<input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
-			<button class="btn btn-danger" onclick="resetDatabase()">❌ Réinitialiser la base</button>
+			<button class="btn btn-danger" onclick="resetDatabase()">❌ Réinitialiser les données</button>
 			</div>
         </div>
 
@@ -1416,8 +1445,8 @@ function showParametresWindow() {
 		<h2 style="text-align:center; margin-bottom: 20px;">Informations</h2>
 
 		<div style="text-align: center; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        <p><strong>Version de l'application :</strong> 1.4.0</p>
-		<p>Obtenez <a href="https://gestionsophrologie.netlify.app/#download" class="support-link"
+        <p><strong>Version de l'application :</strong> 1.5.0</p>
+		<p>Obtenez <a href="https://gestionsophrologie.netlify.app/maj.html?v=1.5.0" class="support-link"
 				onclick="event.preventDefault(); window.api.openExternalLink(this.href)">ici</a>
 		la dernière version</p>
 
@@ -1520,10 +1549,15 @@ function changePlaceholderInfo2(value) {
     saveData();
 }
 
-
-
-
-
+function changeFrappelExport(value) {
+	if (value ===  ''){
+		value = "30" ;
+		document.getElementById('frappelExport-saisie').value = 30;
+	}
+	parametres.frappelExport = value;
+	console.log(document.getElementById('frappelExport-saisie').value);
+    saveData();
+}
 
 //================== GESTION DES FACTURES ======================
 function loadFactures() {	
@@ -1670,19 +1704,6 @@ function factureExiste(client, cheminRecherche) {
 	return client.factures.some(facture => facture.chemin === cheminRecherche);
 }
 
-/*
-async function deleteFacture(index) {
-	const confirmed = await showConfirmDialog('Supprimer cette facture définitivement ?');
-    if (!confirmed) return;
-	
-	const client = clients.find(c => c.id === selectedClientId);
-	if (!client || !client.factures || !client.factures[index]) return;
-	
-	client.factures.splice(index, 1);
-	saveData();
-	renderFactures();
-}*/
-
 function changeFacturePaiement(index, value) {
 	const client = clients.find(c => c.id === selectedClientId);
 	if (!client || !client.factures || !client.factures[index]) return;
@@ -1739,9 +1760,17 @@ async function choisirDossierFactures() {
 	const dirFacPath = await window.api.selectDossier();
 	console.log(dirFacPath);
 	if (dirFacPath === null) { return };
-	parametres.facturesfolder = dirFacPath;
-	document.getElementById('factures-path').textContent = parametres.facturesfolder || 'Aucun';
-	saveData();
+	
+	if (parametres.facturesfolder!=dirFacPath){
+		const confirmed = await showConfirmDialog(
+			`Êtes-vous sûr(e) de vouloir changer le chemin d\'accès aux factures ? </br> Remplacer : </br><strong>${parametres.facturesfolder}</strong> par <strong>${dirFacPath}</strong>`
+		);
+		if (!confirmed) return;
+		
+		parametres.facturesfolder = dirFacPath;
+		document.getElementById('factures-path').textContent = parametres.facturesfolder || 'Aucun';
+		saveData();
+	}
 }
 
 async function getClientFactures() {
@@ -1800,6 +1829,10 @@ function exportData() {
     a.click(); // déclenche le téléchargement
     document.body.removeChild(a);
     URL.revokeObjectURL(url); // libère la ressource
+	showNotification("Export réussi ! Veuillez enregistrer le fichier ✅",'success');
+	const dateActuelle = new Date().toISOString();
+	parametres.lastExport = dateActuelle;
+	saveData();
 }
 
 async function importData(event) {
@@ -1889,11 +1922,13 @@ function showNotification(message, type = 'info') {
 
     container.appendChild(notif);
 
-    // Disparaît après 4 secondes
+    // Disparaît après 4 secondes si non error
+	if (type !== 'error'){
     setTimeout(() => {
         notif.style.opacity = '0';
         setTimeout(() => notif.remove(), 500);
     }, 4000);
+	}
 }
 
 function showConfirmDialog(message, confirmText = "Confirmer", cancelText = "Annuler") {
@@ -1924,6 +1959,16 @@ function showConfirmDialog(message, confirmText = "Confirmer", cancelText = "Ann
     });
 }
 
+function showSaved() {
+  const line = document.createElement("div");
+  line.className = "save-line";
+
+  document.body.appendChild(line);
+
+  setTimeout(() => {
+    line.remove();
+  }, 1000);
+}
 
 //vérifie 0<=note<=5
 document.addEventListener('DOMContentLoaded', () => {

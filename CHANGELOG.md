@@ -15,6 +15,17 @@ Ce projet suit les recommandations de **Keep a Changelog**  et utilise le versio
 
 ---
 
+## [1.5.0]
+
+### Ajouté 
+- Rappel d'export des données (éditable dans Paramètres > Données)
+
+### Corrigé
+- Affichage continu des erreurs (via notifications) liées aux données
+- Refonte de l'interface utilisateur
+- Indicateur de sauvegarde amélioré
+
+---
 ## [1.4.0]
 
 ### Ajouté 

@@ -23,7 +23,9 @@
 <body>
     <div class="container">
         <div class="header no-print">
-			<img src="icon.ico" alt="Logo" class="header-logo">
+			<a onclick="saveData()" >
+				<img src="icon.ico" alt="Logo" class="header-logo" >
+			</a>
 			<img src="parametres-icon.png" alt="Image" class="header-parametres-icon img-assombrit" onclick="showParametresWindow()">
 			<div>
 				<h1>Gestion Sophrologie</h1>
@@ -101,7 +103,7 @@
 
                 <!-- Mode visualisation -->
                 <div id="anamnese-view" class="anamnese-view">
-					<div class="print-header">
+					<div class="print-header hide-header" >
                         <h1>Anamnèse</h1>
                         <p class="client-name" id="anamnese-client-name"></p>
 						<span style="display:block; margin-top:2px;"></span>
@@ -386,6 +388,11 @@
             <div id="content-seances" class="tab-content">
                 <div class="toolbar no-print">
                     <h2>Feuilles de séance</h2>
+                        <div class="toolbar-actions" id="seance-tools">
+							<button class="btn btn-secondary" onclick="backToSeancesList()">← Retour</button>
+                            <button class="btn btn-secondary" id="btn-edit-seance" onclick="toggleEditSeance()">✏️ Modifier</button>
+                            <button class="btn btn-primary" onclick="printSeance()">🖨️ Imprimer</button>
+                        </div>
                 </div>
 
                 <div id="seances-info" class="alert alert-info no-print"></div>
@@ -394,17 +401,10 @@
 
                 <!-- Vue détaillée d'une séance -->
                 <div id="seance-detail" class="hidden">
-                    <div class="toolbar no-print">
-                        <button class="btn btn-secondary" onclick="backToSeancesList()">← Retour</button>
-                        <div class="toolbar-actions">
-                            <button class="btn btn-secondary" id="btn-edit-seance" onclick="toggleEditSeance()">✏️ Modifier</button>
-                            <button class="btn btn-primary" onclick="printSeance()">🖨️ Imprimer</button>
-                        </div>
-                    </div>
 
                     <!-- Mode visualisation -->
                     <div id="seance-view" class="seance-view">
-                        <div class="print-header">
+                        <div class="print-header hide-header">
                             <h1>Feuille de séance</h1>
                             <p class="client-name" id="seance-client-name"></p>
                             <p id="seance-number"></p>
@@ -534,7 +534,7 @@
 
                 <div id="factures-lists" class="factures-table"></div>
 			</div>
-
+			
 			<script src="app.js"></script>
 		</div>
 	</div>
